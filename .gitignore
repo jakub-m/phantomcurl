@@ -1,0 +1,9 @@
+*.swo
+*.bak
+*.pyc
+*.swp
+build/
+dist/
+phantomcurl.egg-info/
+phantomcurl/bin/
+.DS_Store
