@@ -26,12 +26,7 @@ PhantomJS binary
 Returned values
 ===============
 
-`fetch()` returns dictionary with the followitng fields:
-
-
-    TODO...
-
-fetch() returns dictionary with the following fields:
+`fetch()` returns dictionary with the following fields:
 
     url             - URL feeded to the fetch function
     requests        - all requests captured
