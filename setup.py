@@ -6,7 +6,7 @@ from setuptools import setup
 
 import phantomcurl.version as version
 
-with open('./phantomcurl/README.md') as h:
+with open('README.md') as h:
     long_description = h.read()
 
 setup(
