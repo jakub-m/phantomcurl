@@ -22,6 +22,7 @@ USER_AGENT = (u'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 '
 
 def get_options():
     p = argparse.ArgumentParser(
+        prog='python -m phantomcurl',
         description=phantomcurl.helpstrings.description,
         epilog=phantomcurl.helpstrings.epilog,
         formatter_class=argparse.RawTextHelpFormatter)
