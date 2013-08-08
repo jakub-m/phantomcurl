@@ -27,36 +27,37 @@ def get_options():
         epilog=phantomcurl.helpstrings.epilog,
         formatter_class=argparse.RawTextHelpFormatter)
     p.add_argument('url', nargs='?')
-    p.add_argument('-p', '--post', nargs='*', action='append',
-                   metavar='key [value]',
-                   help='send POST with data')
-    p.add_argument('-o', '--output', metavar='<path>',
-                   help='output file')
     p.add_argument('-A', '--user-agent', default=USER_AGENT,
                    metavar='<user_agent>')
     p.add_argument('-c', '--cookie-jar', metavar='<path>',
                    help='file with permanent cookies')
-    p.add_argument('-m', '--dump-content', default=False,
-                   action='store_true')
-    p.add_argument('-x', '--proxy', metavar='<address>',
-                   help='HTTP proxy address')
-    p.add_argument('-s', '--capture-screen', metavar='<filename>')
-    p.add_argument('-r', '--with-request-response', default=False,
-                   action='store_true', help='capture requests and responses')
-    p.add_argument('-f', '--inspect-iframes', default=False,
-                   action='store_true', help='inspect iframes recursively')
-    p.add_argument('-t', '--timeout', metavar='<sec>', type=float,
-                   help='timeout for whole operation')
     p.add_argument('-d', '--delay', metavar='<sec>', type=float,
                    help='wait additional X seonds')
-    p.add_argument('-N', '--no-content', dest='with_content', default=True,
-                   action='store_false', help='do not return page source')
+    p.add_argument('-f', '--inspect-iframes', default=False,
+                   action='store_true', help='inspect iframes recursively')
     p.add_argument('-L', '--landing-page', default=False, action='store_true',
                    help='presets suitable for capturing the landing page only')
-    p.add_argument('--debug', default=False,
+    p.add_argument('-m', '--dump-content', default=False,
                    action='store_true')
+    p.add_argument('-N', '--no-content', dest='with_content', default=True,
+                   action='store_false', help='do not return page source')
+    p.add_argument('-o', '--output', metavar='<path>',
+                   help='output file')
+    p.add_argument('-p', '--post', nargs='*', action='append',
+                   metavar='key [value]',
+                   help='send POST with data')
+    p.add_argument('-r', '--with-request-response', default=False,
+                   action='store_true', help='capture requests and responses')
+    p.add_argument('-s', '--capture-screen', metavar='<filename>')
+    p.add_argument('-t', '--timeout', metavar='<sec>', type=float,
+                   help='timeout for whole operation')
+    p.add_argument('-x', '--proxy', metavar='<address>',
+                   help='HTTP proxy address')
     p.add_argument('-V', '--version', default=False,
                    action='store_true')
+    p.add_argument('--debug', default=False,
+                   action='store_true')
+
     opts = p.parse_args()
     if not opts.version and not opts.url:
         print 'Missing URL'
