@@ -9,8 +9,8 @@ Installation
 
 `phantomcurl` is a wrapper around [PhantomJS][phantomjs], so first you should install PhantomJS [from the project's page][phantomjs-install]
 
-[phantomjs]:http://phantomjs.org/.
-[phantomjs-install]:
+[phantomjs]:http://phantomjs.org/
+[phantomjs-install]:http://phantomjs.org/download.html
 
 `phantomjs` should be visible system wise:
 
