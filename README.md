@@ -1,26 +1,36 @@
 phantomcurl
 ===========
 
-Python wrapper around PhantomJS headless borwser
+Python wrapper around PhantomJS headless browser
 
-Instalation
+
+Installation
 ===========
 
-Build and install the egg:
+`phantomcurl` is a wrapper around [PhantomJS][phantomjs], so first you should install PhantomJS [from the project's page][phantomjs-install]
 
-    make
-    easy_install dist/phantomcurl-XXXX-py2.7.egg
+[phantomjs]:http://phantomjs.org/.
+[phantomjs-install]:
 
-Install PhantomJS binary from http://phantomjs.org/. For Mac OS it would be:
-    
-    https://phantomjs.googlecode.com/files/phantomjs-1.9.0-macosx.zip
-
-phantomjs should be visible system wise:
+`phantomjs` should be visible system wise:
 
     which phantomjs
 
-Otherwise, you can export an environment variable PHANTOMJS_BIN to point to the
-PhantomJS binary
+If the binary is not visible system-wide, you should set the environment variable PHANTOMJS_BIN to point to the PhantomJS binary.
+
+Now, build and install the python egg:
+
+    make && make install
+
+
+Command line tool
+================
+
+You can use the script as a command line tool with:
+
+    python -mphantomcurl --help
+
+Returns data in JSON format
 
 
 Returned values
@@ -28,10 +38,10 @@ Returned values
 
 `fetch()` returns dictionary with the following fields:
 
-    url             - URL feeded to the fetch function
+    url             - URL fed to the fetch function
     requests        - all requests captured
     responses       - all responses captured
-    content         - content of the webpage
+    content         - content of the web page
     timestamps      - [start, end], seconds
     version         - version of the JS script
     command_line    - command line arguments passed to the JS 
@@ -41,20 +51,4 @@ IFrames inspection
 ==================
 
 The script allows deep iframes inspection (-f option). For each iframe it reports `src`, `id` and its content. Then for each frame it check if it contains more iframes and reports them, recursively.
-
-
-Redirections
-============
-
-Suitable to follow redirections, if redirection is realised as JavaScript or form
-
-Command line tool
-================
-
-You can use the script as a commandline tool with:
-
-    python -mphantomcurl --help
-
-Returns data in JSON format
-
 
