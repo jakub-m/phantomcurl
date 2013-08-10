@@ -45,6 +45,7 @@ Returned values
     timestamps      - [start, end], seconds
     version         - version of the JS script
     command_line    - command line arguments passed to the JS 
+    frames          - IFrames found on the page. `frames` can contain other frames recursively
 
 
 IFrames inspection
