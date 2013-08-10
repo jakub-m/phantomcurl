@@ -1,7 +1,7 @@
 PhantomCurl
 ===========
 
-Python wrapper around PhantomJS headless browser for advanced web scraping.
+Python wrapper around [PhantomJS][phantomjs] headless browser for advanced web scraping.
 Apart of the page content, it can record all requests and responses from the
 web page, or collect content of all the IFrames.
 
