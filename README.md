@@ -1,13 +1,17 @@
-phantomcurl
+PhantomCurl
 ===========
 
-Python wrapper around PhantomJS headless browser
+Python wrapper around PhantomJS headless browser for advanced web scraping.
+Apart of the page content, it can record all requests and responses from the
+web page, or collect content of all the IFrames.
+
+If used as a command line tool, it returns data in JSON format.
 
 
 Installation
 ===========
 
-phantomcurl is a wrapper around [PhantomJS][phantomjs], so first you should install PhantomJS [from the project's page][phantomjs-install]
+PhantomCurl is a wrapper around [PhantomJS][phantomjs], so first you should install PhantomJS [from the project's page][phantomjs-install]
 
 [phantomjs]:http://phantomjs.org/
 [phantomjs-install]:http://phantomjs.org/download.html
