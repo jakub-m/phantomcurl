@@ -119,10 +119,10 @@ def main():
                       debug=opts.debug,
                       delay=opts.delay,
                       with_content=opts.with_content,
-                      with_request_response=opts.with_request_response,
-                      post_params=post_params)
+                      with_request_response=opts.with_request_response)
     try:
         page = pjs.fetch(opts.url,
+                         post_params=post_params,
                          capture_screen=opts.capture_screen)
     except PhantomCurlError as exc:
         print_err('!!!ERROR: {}'.format(exc.__class__.__name__))

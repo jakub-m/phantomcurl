@@ -44,8 +44,7 @@ class PhantomCurl(object):
     def __init__(self, user_agent=None, cookie_jar=None,
                  proxy=None, timeout_sec=None,
                  inspect_iframes=False, debug=False, delay=None,
-                 with_content=True, with_request_response=False,
-                 post_params=None):
+                 with_content=True, with_request_response=False):
         '''timeout - seconds or None. If set, then phantomjs javascript timeout
         is set to this value, and thread.join timeout is set
         TIMEOUT_JS_TO_JOIN_DELTA_SEC seconds later.'''
@@ -62,9 +61,8 @@ class PhantomCurl(object):
         self._user_agent = user_agent
         self._with_content = with_content
         self._with_request_response = with_request_response
-        self._post_params = post_params
 
-    def fetch(self, url, capture_screen=None):
+    def fetch(self, url, post_params=None, capture_screen=None):
         '''Return dictionary with requests, responses and content. Can raise
         PhantomCurlError with out and err values set. Will raise it when URL
         does not have a proper protocol (http or https)'''
@@ -107,8 +105,8 @@ class PhantomCurl(object):
             options_js += [_OPT_NO_CONTENT]
         if self._with_request_response:
             options_js += [_OPT_REQUEST_RESPONSE]
-        if self._post_params is not None:
-            options_js += [_OPT_POST_FULL, self._get_full_post_string()]
+        if post_params is not None:
+            options_js += [_OPT_POST_FULL, _get_full_post_string(post_params)]
 
         options_js_str = [str(o) for o in options_js]
         cmds = [PHANTOMJS_BIN] + options_bin + [PHANTOMJS_JS] + options_js_str
@@ -125,9 +123,6 @@ class PhantomCurl(object):
         except ValueError:
             raise PhantomCurlError('Invalid output', out=out, err=err)
         return output_json
-
-    def _get_full_post_string(self):
-        return urllib.urlencode(self._post_params)
 
     def _clean_output(self, output):
         '''Cleaning output from garbage (from 0 to magic string)
@@ -146,6 +141,9 @@ class PhantomCurl(object):
             if garbage:
                 logger.debug(garbage)
         return fixed
+
+def _get_full_post_string(post_params_pairs):
+    return urllib.urlencode(post_params_pairs)
 
 
 def _split_post_tuples(post_data):
