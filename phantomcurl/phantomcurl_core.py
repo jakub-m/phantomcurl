@@ -45,9 +45,46 @@ class PhantomCurl(object):
                  proxy=None, timeout_sec=None,
                  inspect_iframes=False, debug=False, delay=None,
                  with_content=True, with_request_response=False):
-        '''timeout - seconds or None. If set, then phantomjs javascript timeout
-        is set to this value, and thread.join timeout is set
-        TIMEOUT_JS_TO_JOIN_DELTA_SEC seconds later.'''
+        """
+        user_agent
+            User-Agent string.
+
+        cookie_jar
+            File name to store permanent cookies.
+
+        proxy
+            HTTP proxy address.
+
+        timeout_sec
+            Timepout in seconds. If set, then phantomjs javascript timeout is
+            set to this value, and thread.join timeout is set
+            TIMEOUT_JS_TO_JOIN_DELTA_SEC seconds later.
+
+        inspect_iframes
+            Will inspect IFrames recursively and return return the content
+            under `frames` key.
+
+        debug
+            If true, will send debug messages to `logging` logger with name
+            `phantomcurl` at `DEBUG` level
+
+        delay
+            Wait specified number of seconds after loading the page, and before
+            scraping the content and capturing the screen. Helpful when some
+            asynchronous JS needs to finish.
+
+        with_content
+            Indicate if should scrap content of the webpage.
+
+        with_request_response
+            Store information about all requests and responses (e.g., to
+            collect third parties).
+        
+
+        Raises:
+            PhantomCurlError if something goes wrong
+        """
+
         assert timeout_sec is None or isinstance(timeout_sec, (int, float))
         if cookie_jar and not is_writeable(cookie_jar):
             raise PhantomCurlError('Cannot write to "{}"'.format(cookie_jar))
@@ -63,9 +100,21 @@ class PhantomCurl(object):
         self._with_request_response = with_request_response
 
     def fetch(self, url, post_params=None, capture_screen=None):
-        '''Return dictionary with requests, responses and content. Can raise
-        PhantomCurlError with out and err values set. Will raise it when URL
-        does not have a proper protocol (http or https)'''
+        """
+        url
+            URL to access. Must start with "http[s]://"
+
+        post_params
+            If None, then GET method is used. Otherwise, POST is used with
+            those parameters.
+
+        capture_screen
+            Filename where the screenshot should be stored.
+            
+        Raises:
+            PhantomCurlError 
+
+        """
         if not _has_accepted_protocol(url):
             raise PhantomCurlError('Unknown protocol for "{}"'.format(url))
         logger.info('fetching {}'.format(url))
