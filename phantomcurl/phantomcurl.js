@@ -37,6 +37,10 @@ var OPT_REQUEST_RESPONSE    = '--request-response'
 
 /* --post key value --post key2 value */
 var OPT_POST_FULL           = '--post-full'
+
+/* optional custom headers, passed as JSON-ified dictionary */
+var OPT_CUSTOM_HEADERS_JSON = '--custom-headers-json'
+
 /*************************************************************************/
 
 var system = require( 'system' );
@@ -89,6 +93,9 @@ var parse_arguments = function() {
             case OPT_POST_FULL:
                 opts.method = 'POST';
                 opts.post_full_str = args.shift();
+                break;
+            case OPT_CUSTOM_HEADERS_JSON:
+                opts.custom_headers = JSON.parse(args.shift());
                 break;
             default:
                 die('unknown option: ' + x);
@@ -167,6 +174,10 @@ if (g_opts.url === undefined) {
 
 if (g_opts.user_agent !== undefined) {
     page.settings.userAgent = g_opts.user_agent;
+}
+
+if (g_opts.custom_headers !== undefined) {
+    page.customHeaders = g_opts.custom_headers;
 }
 
 if (g_opts.with_request_responses == true) {

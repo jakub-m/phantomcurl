@@ -23,6 +23,7 @@ _OPT_DELAY_SEC           = '--delay-sec'
 _OPT_NO_CONTENT          = '--no-content'
 _OPT_REQUEST_RESPONSE    = '--request-response'
 _OPT_POST_FULL           = '--post-full'
+_OPT_CUSTOM_HEADERS_JSON = '--custom-headers-json'
 
 
 _MAGIC_STRING = 'MAGIC_8SD6ADEADBEEFD8AA8DS68F8_MAGIC'
@@ -44,7 +45,8 @@ class PhantomCurl(object):
     def __init__(self, user_agent=None, cookie_jar=None,
                  proxy=None, timeout_sec=None,
                  inspect_iframes=False, debug=False, delay=None,
-                 with_content=True, with_request_response=False):
+                 with_content=True, with_request_response=False,
+                 headers=None):
         """
         user_agent
             User-Agent string.
@@ -79,13 +81,17 @@ class PhantomCurl(object):
         with_request_response
             Store information about all requests and responses (e.g., to
             collect third parties).
-        
+
+        headers
+            Dictionary with optional HTTP headers.
 
         Raises:
             PhantomCurlError if something goes wrong
         """
 
         assert timeout_sec is None or isinstance(timeout_sec, (int, float))
+        assert headers is None or isinstance(headers, dict)
+
         if cookie_jar and not is_writeable(cookie_jar):
             raise PhantomCurlError('Cannot write to "{}"'.format(cookie_jar))
         self._cookie_jar = cookie_jar
@@ -98,6 +104,7 @@ class PhantomCurl(object):
         self._user_agent = user_agent
         self._with_content = with_content
         self._with_request_response = with_request_response
+        self._headers = headers
 
     def fetch(self, url, post_params=None, capture_screen=None):
         """
@@ -156,6 +163,8 @@ class PhantomCurl(object):
             options_js += [_OPT_REQUEST_RESPONSE]
         if post_params is not None:
             options_js += [_OPT_POST_FULL, _get_full_post_string(post_params)]
+        if self._headers is not None:
+            options_js += [_OPT_CUSTOM_HEADERS_JSON, json.dumps(self._headers)]
 
         options_js_str = [str(o) for o in options_js]
         cmds = [PHANTOMJS_BIN] + options_bin + [PHANTOMJS_JS] + options_js_str

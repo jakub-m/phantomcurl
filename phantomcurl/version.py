@@ -1,1 +1,1 @@
-current = '0.24'
+current = '0.25'

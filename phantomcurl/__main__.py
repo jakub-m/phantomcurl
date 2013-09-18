@@ -12,12 +12,17 @@ sys.path.insert(0, parentdir)
 
 from phantomcurl.core import PhantomCurl, PhantomCurlError
 from phantomcurl.utils import logger
+import phantomcurl.utils as putils
 import phantomcurl.helpstrings
-import phantomcurl.version as version
+import phantomcurl.version
 
 
 USER_AGENT = (u'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 '
               u'(KHTML, like Gecko) Chrome/26.0.1410.64 Safari/537.31')
+
+
+ERR_MSG_BAD_HEADERS = ('Bad header(s). Specify header as header name '
+                       'and optional value after space.')
 
 
 def get_options():
@@ -46,6 +51,9 @@ def get_options():
     p.add_argument('-p', '--post', nargs='*', action='append',
                    metavar='key [value]',
                    help='send POST with data')
+    p.add_argument('-H', '--header', nargs='*', action='append',
+                   metavar='key [value]',
+                   help='add custom header(s)')
     p.add_argument('-r', '--with-request-response', default=False,
                    action='store_true', help='capture requests and responses')
     p.add_argument('-s', '--capture-screen', metavar='<filename>')
@@ -89,28 +97,25 @@ def print_err(message):
     sys.stderr.write(str(message) + "\n")
 
 
-def valid_post_data_pairs(items):
-    valid_pairs = []
-    for item in items:
-        if not item:
-            pass
-        elif 1 == len(item):
-            valid_pairs.append((item[0], ''))
-        elif 2 == len(item):
-            valid_pairs.append(tuple(item))
-        else:
-            raise ValueError(item)
-    return valid_pairs
-
-
 def main():
     set_logging()
     opts = get_options()
     if opts.version:
-        print version.current
+        print phantomcurl.version.current
         sys.exit(0)
+
+    if opts.header:
+        try:
+            headers = dict(putils.valid_data_pairs(opts.header))
+        except ValueError as err:
+            print '{}: {}'.format(ERR_MSG_BAD_HEADERS, err)
+            sys.exit(-1)
+    else:
+        headers = None
+
     post_params = (None if opts.post is None
-                   else valid_post_data_pairs(opts.post))
+                   else putils.valid_data_pairs(opts.post))
+
     pjs = PhantomCurl(cookie_jar=opts.cookie_jar,
                       user_agent=opts.user_agent,
                       proxy=opts.proxy,
@@ -119,7 +124,8 @@ def main():
                       debug=opts.debug,
                       delay=opts.delay,
                       with_content=opts.with_content,
-                      with_request_response=opts.with_request_response)
+                      with_request_response=opts.with_request_response,
+                      headers=headers)
     try:
         page = pjs.fetch(opts.url,
                          post_params=post_params,
