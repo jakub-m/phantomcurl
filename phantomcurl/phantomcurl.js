@@ -2,7 +2,7 @@
 "use strict";
 
 /* Version of JS script (only JS, not the whole package) */
-var VERSION                 = 'r19';
+var VERSION                 = 'r20';
 
 /* Accepted command line arguments. Other arguments might go to directly to
  * PhantomJS */
