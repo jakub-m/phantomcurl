@@ -1,3 +1,3 @@
-from phantomcurl_core import *
+from .core import *
 
 

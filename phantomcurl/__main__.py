@@ -10,7 +10,7 @@ import codecs
 parentdir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, parentdir)
 
-from phantomcurl.phantomcurl_core import PhantomCurl, PhantomCurlError
+from phantomcurl.core import PhantomCurl, PhantomCurlError
 from phantomcurl.utils import logger
 import phantomcurl.helpstrings
 import phantomcurl.version as version
