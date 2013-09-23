@@ -117,14 +117,15 @@ class PhantomCurl(object):
 
         capture_screen
             Filename where the screenshot should be stored.
-            
+
         Raises:
-            PhantomCurlError 
+            PhantomCurlError
 
         """
         if not _has_accepted_protocol(url):
-            raise PhantomCurlError('Unknown protocol for "{}"'.format(url))
-        logger.info('fetching {}'.format(url))
+            raise PhantomCurlError('Unknown protocol for "{}"'
+                                   .format(repr(url)))
+        logger.info(u'fetching {}'.format(repr(url)))
         options_bin = ['--ignore-ssl-errors=true',
                        '--local-to-remote-url-access=true',
                        '--web-security=false']
